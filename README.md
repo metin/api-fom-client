@@ -1,6 +1,7 @@
-# Api::Fom::Client
+# API::FOM::Client
 
-TODO: Write a gem description
+API client to LendKey FOM service
+
 
 ## Installation
 
@@ -20,11 +21,23 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+You will need a client id and a rsa key to sign the call.
+
+Configure to point to the correct endpoints with your client id and location to pem key to sign the requests.
+LendKey needs to know your client id and public key.
+
+```ruby
+API::FOM::Client::Configuration.configure do |config|
+  config.private_key = 'my/private/key.pem'
+  config.client_id = 'my-ca23dse'
+  config.host = 'http://api.beybun.dev:3000'
+end
+```
+
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/api-fom-client/fork )
+1. Fork it ( https://github.com/metin/api-fom-client/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
