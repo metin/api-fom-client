@@ -1,9 +1,19 @@
+require "typhoeus"
+require "rsa_authority"
+require "json"
+require 'active_support'
+
 require "api/fom/client/version"
+require "api/fom/client/query"
 
 module API
   module FOM
     module Client
-      # Your code goes here...
+
+      class Configuration
+        include ActiveSupport::Configurable
+
+      end
     end
   end
 end
