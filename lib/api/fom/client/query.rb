@@ -36,7 +36,7 @@ module API
           request = Typhoeus::Request.new("#{Configuration.config.host}/fom/v1/fom_queries",
                                           method: :post, body: { criteria: criteria,
                                                                  lender_ids: target_lender_ids,
-                                                                 query_type: query_type })
+                                                                 query_type: query_type }.to_param)
           RSAAuthority::Signer.new(request, Configuration.config.private_key, Configuration.config.client_id).sign
           response = request.run
           @results = JSON.parse(response.body)
