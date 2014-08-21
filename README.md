@@ -34,6 +34,22 @@ API::FOM::Client::Configuration.configure do |config|
 end
 ```
 
+Now you are ready to make calls to FOM service.
+
+
+To find matching lenders in NJ, you need to make a call like this
+
+```ruby
+query = API::FOM::Client::Query.execute("NJ", [], [], [], [], [], :fom)
+
+=> query.query_id
+13
+
+=> query.results
+=> [#<API::FOM::Client::Result:0x007feb7d53a028 @lender_id=118, @reason="I live in NJ">]
+
+```
+
 
 ## Contributing
 
