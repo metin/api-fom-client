@@ -12,6 +12,7 @@ module API
       end
 
       class Query
+        END_POINT = 'fom_queries'
         attr_accessor :lender_ids, :criteria, :query_type
 
         def initialize(criteria, query_type, lender_ids=[])
@@ -27,11 +28,10 @@ module API
         end
 
         def execute
-          target_lender_ids =  (1..400).to_a
-          request = Typhoeus::Request.new("#{Configuration.config.host}/fom/v2/fom_queries",
-                                          method: :post, body: { criteria: criteria,
-                                                                 lender_ids: lender_ids,
-                                                                 query_type: query_type }.to_param)
+          request = Typhoeus::Request.new("#{Configuration.config.host}/#{Configuration.config.version}/#{END_POINT}",
+                                          method: :post,
+                                          body: { criteria: criteria, lender_ids: lender_ids,
+                                                  query_type: query_type }.to_param)
           RSAAuthority::Signer.new(request, Configuration.config.private_key, Configuration.config.client_id).sign
           response = request.run
           @results = JSON.parse(response.body)

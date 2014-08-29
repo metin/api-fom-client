@@ -8,7 +8,8 @@ describe API::FOM::Client::Query do
       API::FOM::Client::Configuration.configure do |config|
         config.private_key = 'my/private/key.pem'
         config.client_id = 'my-ca23dse'
-        config.host = 'http://api.beybun.dev:3000'
+        config.host = 'http://api.beybun.dev:3000/fom'
+        config.version = 'v2'
       end
 
       allow(RSAAuthority::Signer).to receive(:new) { double('auth', sign: true) }
