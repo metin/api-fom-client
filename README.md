@@ -40,7 +40,9 @@ Now you are ready to make calls to FOM service.
 To find matching lenders in NJ, you need to make a call like this
 
 ```ruby
-query = API::FOM::Client::Query.execute("NJ", [], [], [], [], [], :fom)
+criteria = {state_codes: ['NJ']}
+lender_ids = []
+query = API::FOM::Client::Query.execute(criteria, :fom, lender_ids)
 
 => query.query_id
 13

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe API::FOM::Client::Query do
-  subject { API::FOM::Client::Query.new("NJ", [], [], [], [], [], :fom) }
+  subject { API::FOM::Client::Query.new({state_codes: ["NJ"]}, :fom, []) }
 
   describe "#execute" do
     before do

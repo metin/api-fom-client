@@ -12,16 +12,11 @@ module API
       end
 
       class Query
-        attr_accessor :lender_id, :reason, :state_id, :counties, :lender_associations,
-                      :lender_employers, :townships, :zip_codes, :query_type
+        attr_accessor :lender_ids, :criteria, :query_type
 
-        def initialize(state_id, counties, lender_associations, lender_employers, townships, zip_codes, query_type)
-          @state_id = state_id
-          @counties = counties
-          @lender_associations = lender_associations
-          @lender_employers = lender_employers
-          @townships = townships
-          @zip_codes = zip_codes
+        def initialize(criteria, query_type, lender_ids=[])
+          @criteria = criteria
+          @lender_ids = lender_ids
           @query_type = query_type
         end
 
@@ -33,9 +28,9 @@ module API
 
         def execute
           target_lender_ids =  (1..400).to_a
-          request = Typhoeus::Request.new("#{Configuration.config.host}/fom/v1/fom_queries",
+          request = Typhoeus::Request.new("#{Configuration.config.host}/fom/v2/fom_queries",
                                           method: :post, body: { criteria: criteria,
-                                                                 lender_ids: target_lender_ids,
+                                                                 lender_ids: lender_ids,
                                                                  query_type: query_type }.to_param)
           RSAAuthority::Signer.new(request, Configuration.config.private_key, Configuration.config.client_id).sign
           response = request.run
@@ -52,13 +47,8 @@ module API
           @results["id"]
         end
 
-        def lender_ids
+        def result_lender_ids
           results.map &:lender_id
-        end
-
-        def criteria
-          {state_id: state_id, counties: counties, lender_associations: lender_associations,
-            lender_employers: lender_employers, townships: townships, zip_codes: zip_codes}
         end
 
       end
