@@ -2,13 +2,7 @@ module API
   module FOM
     module Client
 
-      class Result
-        attr_accessor :lender_id, :reason
-
-        def initialize(lender_id, reason)
-          @lender_id = lender_id
-          @reason = reason
-        end
+      class Result < OpenStruct
       end
 
       class Query
@@ -38,8 +32,8 @@ module API
         end
 
         def results
-          @results["fom_query_results"].reduce([]) do |all, result|
-            all << Result.new(result["lender_id"], result["reason"])
+          @results["fom_query_results"].map do |result|
+            Result.new(lender_id: result["lender_id"], reason: result["reason"])
           end
         end
 
