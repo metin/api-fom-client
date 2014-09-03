@@ -5,12 +5,7 @@ module API
       class Result < OpenStruct
       end
 
-      class FOMQuery < OpenStruct
-        END_POINT = 'fom_queries'
-
-        def self.load_json(json_data)
-          instance = new(JSON.parse(json_data))
-        end
+      class FOMQuery < Base
 
         def results
           fom_query_results.map do |result|
@@ -22,25 +17,19 @@ module API
           results.map &:lender_id
         end
 
-        def self.resource_url
-          "#{Configuration.config.host}/#{Configuration.config.version}/#{END_POINT}"
+        def self.end_point
+          'fom_queries'
         end
 
         def self.create(criteria, query_type, lender_ids=[])
           request = Typhoeus::Request.new(resource_url, method: :post,
                                           body: { criteria: criteria, lender_ids: lender_ids,
                                                   query_type: query_type }.to_param)
-          RSAAuthority::Signer.new(request, Configuration.config.private_key, Configuration.config.client_id).sign
-          response = request.run
-          FOMQuery.load_json(response.body)
+          call request
         end
 
         def self.find(id)
-          request = Typhoeus::Request.new("#{resource_url}/#{id}", method: :get)
-          RSAAuthority::Signer.new(request, Configuration.config.private_key, Configuration.config.client_id).sign
-          response = request.run
-          debugger
-          FOMQuery.load_json(response.body)
+          call Typhoeus::Request.new("#{resource_url}/#{id}", method: :get)
         end
 
       end

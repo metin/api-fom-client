@@ -6,6 +6,7 @@ require 'active_support'
 require 'active_support/core_ext'
 
 require "api/fom/client/version"
+require "api/fom/client/base"
 require "api/fom/client/fom_query"
 require "api/fom/client/status"
 

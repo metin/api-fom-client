@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 describe API::FOM::Client::Status do
-  subject { API::FOM::Client::Status.new }
 
-  describe "#execute" do
+  describe "#get" do
+    subject { API::FOM::Client::Status.get }
+
     before do
       allow(RSAAuthority::Signer).to receive(:new) { double('auth', sign: true) }
-      response = Typhoeus::Response.new(code: 200, body: "[]")
+      response = Typhoeus::Response.new(code: 200, body: "{\"message\":[\"Success\"]}")
       Typhoeus.stub(/beybun/).and_return(response)
-      subject.execute
     end
 
 
