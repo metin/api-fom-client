@@ -1,6 +1,6 @@
 # API::FOM::Client
 
-API client to LendKey FOM service
+A example API client to LendKey FOM service. This utilizes `rsa_authority` gem to authorize with service.
 
 
 ## Installation
